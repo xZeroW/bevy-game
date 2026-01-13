@@ -1,6 +1,6 @@
 use bevy::prelude::{Query, Res, Time, Transform, ButtonInput, KeyCode};
 
-use crate::game::player::component::Position;
+use crate::game::common::components::characters::position::Position;
 
 pub fn controls(input: Res<ButtonInput<KeyCode>>, time: Res<Time>, mut query: Query<&mut Position>) {
     for mut pos in &mut query {
