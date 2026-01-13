@@ -2,7 +2,6 @@ use bevy::{prelude::*, remote::{RemotePlugin, http::RemoteHttpPlugin}};
 
 use crate::game::player::player::PlayerPlugin;
 use crate::game::player::component::Player;
-use crate::game::common::components::characters::{move_speed::MoveSpeed, position::Position, state::State};
 
 pub struct GamePlugin;
 
@@ -19,14 +18,8 @@ impl Plugin for GamePlugin {
 fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.spawn(Camera2d);
 
-    commands.spawn(Player {
-        sprite:Sprite::from_image(asset_server.load("classes/archer.png")),
-        position: Position::default(),
-        move_speed: MoveSpeed::default(),
-        state: State::default(),
-    });
+    commands.spawn(Player)
+        .insert(Sprite::from_image(asset_server.load("classes/archer.png")));
 
-    commands.spawn((
-        Sprite::from_image(asset_server.load("classes/default.png")),
-    ));
+    commands.spawn(Sprite::from_image(asset_server.load("classes/default.png")));
 }

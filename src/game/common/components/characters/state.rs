@@ -1,13 +1,8 @@
 use bevy::prelude::Component;
 
-#[derive(Component)]
+#[derive(Component, Default)]
 pub enum State {
+    #[default]
     Idle,
     Moving,
-}
-
-impl Default for State {
-    fn default() -> Self {
-        State::Idle
-    }
 }
