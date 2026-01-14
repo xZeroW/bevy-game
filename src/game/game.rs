@@ -1,4 +1,4 @@
-use bevy::{prelude::*, remote::{RemotePlugin, http::RemoteHttpPlugin}};
+use bevy::prelude::*;
 
 use crate::game::player::player::PlayerPlugin;
 use crate::game::player::component::Player;
@@ -9,8 +9,6 @@ impl Plugin for GamePlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(PlayerPlugin)
         .insert_resource(ClearColor(Color::srgb(0.4, 0.35, 0.45)))
-        .add_plugins(RemotePlugin::default())
-        .add_plugins(RemoteHttpPlugin::default())
         .add_systems(Startup, setup);
     }
 }
