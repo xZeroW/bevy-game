@@ -13,4 +13,7 @@ opt-level = 3
 
 [dependencies]
 bevy = { version = "0.18", default-features = false, features = ["2d"] }
+bevy_ecs_tilemap = "0.18.1"
+thiserror = "2.0.18"
+tiled = "0.15.0"
 

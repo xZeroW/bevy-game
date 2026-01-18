@@ -23,6 +23,7 @@ pub fn controls(input: Res<ButtonInput<KeyCode>>, time: Res<Time>, mut query: Qu
 
 pub fn sync_position_transform(mut query: Query<(&Position, &mut Transform)>) {
     for (pos, mut transform) in &mut query {
+        transform.translation.z = 1.0;
         transform.translation.x = pos.x;
         transform.translation.y = pos.y;
     }
