@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use bevy_inspector_egui::{bevy_egui::EguiPlugin, quick::WorldInspectorPlugin};
 
 pub mod game;
 
@@ -10,7 +11,7 @@ fn main() {
             DefaultPlugins
                 .set(WindowPlugin {
                     primary_window: Some(Window {
-                        title: String::from("Bevy Platformer"),
+                        title: String::from("Bevy Game"),
                         ..Default::default()
                     }),
                     ..default()
@@ -18,5 +19,7 @@ fn main() {
                 .set(ImagePlugin::default_nearest()),
         )
         .add_plugins(GamePlugin)
+        .add_plugins(EguiPlugin::default())
+        .add_plugins(WorldInspectorPlugin::new())
         .run();
 }
