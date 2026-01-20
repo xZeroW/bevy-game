@@ -1,7 +1,6 @@
 use bevy::prelude::*;
 use crate::game::player::component::Player;
-use crate::game::player::controls::controls;
-use crate::game::player::controls::sync_position_transform;
+use crate::game::player::controls::{controls, sync_position_transform};
 
 pub struct PlayerPlugin;
 
@@ -9,7 +8,7 @@ impl Plugin for PlayerPlugin {
     fn build(&self, app: &mut App) {
         app
         .add_systems(Startup, setup)
-        .add_systems(Update,
+        .add_systems(FixedUpdate,
             (controls, sync_position_transform).chain());
     }
 }

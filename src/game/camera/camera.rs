@@ -1,13 +1,15 @@
 use bevy::prelude::*;
 use bevy::input::mouse::MouseWheel;
 
+use crate::game::player::component::Player;
+
 pub struct CameraPlugin;
 
 impl Plugin for CameraPlugin {
     fn build(&self, app: &mut App) {
         app
         .add_systems(Startup, setup)
-        .add_systems(Update, zoom);
+        .add_systems(FixedUpdate, (zoom, sync_camera_position) );
     }
 }
 
@@ -31,5 +33,14 @@ fn zoom(
                 ortho.scale = (ortho.scale - 0.1).clamp(0.5, 1.5);
             }
         }
+    }
+}
+
+fn sync_camera_position(
+    player: Query<&Transform, With<Player>>,
+    mut camera: Query<&mut Transform, (With<Camera>, Without<Player>)>,
+) {
+    if let (Ok(player_transform), Ok(mut camera_transform)) = (player.single(), camera.single_mut()) {
+        camera_transform.translation = player_transform.translation;
     }
 }
