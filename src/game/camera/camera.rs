@@ -25,9 +25,9 @@ fn zoom(
                 continue;
             };
 
-            if event.y > 0.0 {
+            if event.y < 0.0 {
                 ortho.scale = (ortho.scale + 0.1).clamp(0.5, 1.5);
-            } else if event.y < 0.0 {
+            } else if event.y > 0.0 {
                 ortho.scale = (ortho.scale - 0.1).clamp(0.5, 1.5);
             }
         }
