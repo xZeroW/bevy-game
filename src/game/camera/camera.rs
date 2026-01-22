@@ -1,5 +1,6 @@
 use bevy::prelude::*;
 use bevy::input::mouse::MouseWheel;
+use crate::game::config as cfg;
 
 use crate::game::player::component::Player;
 
@@ -28,9 +29,9 @@ fn zoom(
             };
 
             if event.y < 0.0 {
-                ortho.scale = (ortho.scale + 0.1).clamp(0.5, 1.5);
+                ortho.scale = (ortho.scale + 0.1).clamp(cfg::ORTHO_MIN_SCALE, cfg::ORTHO_MAX_SCALE);
             } else if event.y > 0.0 {
-                ortho.scale = (ortho.scale - 0.1).clamp(0.5, 1.5);
+                ortho.scale = (ortho.scale - 0.1).clamp(cfg::ORTHO_MIN_SCALE, cfg::ORTHO_MAX_SCALE);
             }
         }
     }

@@ -1,9 +1,9 @@
-use bevy::prelude::*;
+use bevy::{prelude::*, window::PresentMode};
 use bevy_inspector_egui::{bevy_egui::EguiPlugin, quick::WorldInspectorPlugin};
 
 pub mod game;
 
-use crate::game::game::GamePlugin;
+use crate::game::{game::GamePlugin, ui::fps::FpsPlugin};
 
 fn main() {
     App::new()
@@ -12,14 +12,15 @@ fn main() {
                 .set(WindowPlugin {
                     primary_window: Some(Window {
                         title: String::from("Bevy Game"),
+                        present_mode: PresentMode::Immediate,
                         ..Default::default()
                     }),
                     ..default()
                 })
                 .set(ImagePlugin::default_nearest()),
         )
-        .add_plugins(GamePlugin)
-        .add_plugins(EguiPlugin::default())
-        .add_plugins(WorldInspectorPlugin::new())
+        .add_plugins((GamePlugin, FpsPlugin))
+        // .add_plugins(EguiPlugin::default())
+        // .add_plugins(WorldInspectorPlugin::new())
         .run();
 }
