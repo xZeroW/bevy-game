@@ -18,6 +18,7 @@ impl Plugin for PlayerPlugin {
 fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.spawn(Player)
         .insert(
-            Sprite::from_image(asset_server.load("classes/archer.png"))
-        );
+            Sprite::from_image(asset_server.load("classes/archer.png")),
+        )
+        .insert(Name::new("Player"));
 }

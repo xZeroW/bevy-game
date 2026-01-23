@@ -1,9 +1,9 @@
 use bevy::{prelude::*, window::PresentMode};
-// use bevy_inspector_egui::{bevy_egui::EguiPlugin, quick::WorldInspectorPlugin};
+use bevy_inspector_egui::{bevy_egui::EguiPlugin, quick::WorldInspectorPlugin};
 
 pub mod game;
 
-use crate::game::{game::GamePlugin, ui::fps::FpsPlugin};
+use crate::game::{game::GamePlugin, state::GameState, ui::fps::FpsPlugin};
 
 fn main() {
     App::new()
@@ -19,8 +19,9 @@ fn main() {
                 })
                 .set(ImagePlugin::default_nearest()),
         )
+        .init_state::<GameState>()
         .add_plugins((GamePlugin, FpsPlugin))
-        // .add_plugins(EguiPlugin::default())
-        // .add_plugins(WorldInspectorPlugin::new())
+        .add_plugins(EguiPlugin::default())
+        .add_plugins(WorldInspectorPlugin::new())
         .run();
 }

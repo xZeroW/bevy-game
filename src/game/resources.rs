@@ -1,5 +1,5 @@
 use bevy::prelude::*;
-use crate::game::config as cfg;
+use crate::game::{config as cfg, state::GameState};
 
 #[derive(Resource, Default)]
 pub struct GlobalTextureAtlas {
@@ -12,7 +12,7 @@ pub struct ResourcesPlugin;
 impl Plugin for ResourcesPlugin {
     fn build(&self, app: &mut App) {
         app.insert_resource(GlobalTextureAtlas::default())
-            .add_systems(Startup, load_sprite_sheet)
+            .add_systems(OnEnter(GameState::Loading), load_sprite_sheet)
             .add_systems(Update, create_texture_atlas_layout.run_if(needs_atlas));
     }
 }
