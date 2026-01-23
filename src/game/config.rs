@@ -4,10 +4,10 @@ use bevy::prelude::*;
 // Keep these in one place so other systems (camera, terrain) can reference them.
 
 // Sprite / tiles
-pub const SPRITE_PIX_W: u32 = 6;
-pub const SPRITE_PIX_H: u32 = 8;
-pub const SPRITE_SCALE: u32 = 5;
-pub const SPRITE_PADDING: f32 = 2.0; // pixels in the sheet
+pub const SPRITE_PIX_W: u32 = 8;
+pub const SPRITE_PIX_H: u32 = 10;
+pub const SPRITE_SCALE: u32 = 3;
+pub const SPRITE_PADDING: f32 = 1.0; // pixels in the sheet
 
 // Chunk layout
 pub const CHUNK_W: u32 = 16;

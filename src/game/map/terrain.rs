@@ -80,8 +80,8 @@ impl Plugin for TerrainPlugin {
             .insert_resource(CurrentChunks::default())
             .insert_resource(ChunkCache::default())
             .add_plugins(TilemapPlugin)
-            .add_systems(Update, generate_chunks_around_player)
-            .add_systems(Update, cleanup_far_chunks)
+            .add_systems(FixedUpdate, generate_chunks_around_player)
+            .add_systems(FixedUpdate, cleanup_far_chunks)
             .add_systems(Update, update_ui);
     }
 }
@@ -110,7 +110,7 @@ fn generate_chunks_around_player(
     };
     let (pcx, pcy) = world_to_chunk_coord(player_tf.translation.x, player_tf.translation.y);
 
-    let texture_handle = asset_server.load("sprite-sheet.png");
+    let texture_handle = asset_server.load("tilesets/assets.png");
     // compute horizontal/vertical render radius in chunks based on window + camera
     let window = match window_query.single() {
         Ok(w) => w,
@@ -201,10 +201,7 @@ fn spawn_chunk_from_data(commands: &mut Commands, texture: Handle<Image>, chunk:
         commands.entity(*e).insert(TilemapId(tilemap_entity));
     }
 
-    // tiles store `TilemapId`, so we can find and despawn them when
-    // the parent tilemap is removed.
-
-    tilemap_entity
+    return tilemap_entity;
 }
 
 fn generate_chunk_data(gen_seed: u32, chunk: (i32, i32)) -> Vec<u8> {
@@ -221,7 +218,7 @@ fn generate_chunk_data(gen_seed: u32, chunk: (i32, i32)) -> Vec<u8> {
             data.push(tile_index as u8);
         }
     }
-    data
+    return data;
 }
 
 fn cleanup_far_chunks(

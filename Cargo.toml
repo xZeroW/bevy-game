@@ -12,7 +12,7 @@ opt-level = 1
 opt-level = 3
 
 [dependencies]
-bevy = { version = "0.18", default-features = false, features = ["2d", "ui", "bevy_dev_tools"] }
+bevy = { version = "0.18", default-features = false, features = ["2d", "ui", "bevy_dev_tools", "wayland"] }
 bevy-inspector-egui = "0.36.0"
 bevy_ecs_tilemap = "0.18.1"
 thiserror = "2.0.18"

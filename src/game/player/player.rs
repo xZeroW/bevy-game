@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 use crate::game::player::component::Player;
-use crate::game::player::controls::{controls, sync_position_transform};
+use crate::game::player::controls::{controls, sync_position_transform, close_on_esc};
 
 pub struct PlayerPlugin;
 
@@ -8,8 +8,9 @@ impl Plugin for PlayerPlugin {
     fn build(&self, app: &mut App) {
         app
         .add_systems(Startup, setup)
-        .add_systems(FixedUpdate,
-            (controls, sync_position_transform).chain());
+        .add_systems(Update,
+            (controls, close_on_esc))
+        .add_systems(FixedUpdate, sync_position_transform);
     }
 }
 
@@ -19,8 +20,4 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         .insert(
             Sprite::from_image(asset_server.load("classes/archer.png"))
         );
-
-    commands.spawn((Sprite::from_image(
-        asset_server.load("classes/default.png")
-    ), Transform::from_translation(Vec3::new(0.0, 0.0, 1.0))));
 }
