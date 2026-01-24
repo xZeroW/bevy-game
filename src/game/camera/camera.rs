@@ -10,12 +10,22 @@ impl Plugin for CameraPlugin {
     fn build(&self, app: &mut App) {
         app
         .add_systems(Startup, setup)
+        .add_systems(Startup, set_camera_scale_after_spawn.after(setup))
         .add_systems(FixedUpdate, (zoom, sync_camera_position) );
     }
 }
 
 fn setup(mut commands: Commands) {
     commands.spawn(Camera2d);
+}
+
+fn set_camera_scale_after_spawn(mut query: Query<&mut Projection, With<Camera>>) {
+    for mut projection in &mut query {
+        if let Projection::Orthographic(ortho) = &mut *projection {
+            ortho.scale = 0.3;
+            break;
+        }
+    }
 }
 
 fn zoom(

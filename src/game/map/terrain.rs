@@ -97,6 +97,7 @@ fn world_to_chunk_coord(x: f32, y: f32) -> (i32, i32) {
 fn generate_chunks_around_player(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
+    atlas: Res<crate::game::resources::GlobalTextureAtlas>,
     mut chunks: ResMut<CurrentChunks>,
     seed: Res<GenerationSeed>,
     mut cache: ResMut<ChunkCache>,
@@ -110,7 +111,12 @@ fn generate_chunks_around_player(
     };
     let (pcx, pcy) = world_to_chunk_coord(player_tf.translation.x, player_tf.translation.y);
 
-    let texture_handle = asset_server.load("tilesets/assets.png");
+    // prefer the loaded global atlas image if available
+    let texture_handle = if let Some(img) = &atlas.image {
+        img.clone()
+    } else {
+        asset_server.load("tilesets/assets.png")
+    };
     // compute horizontal/vertical render radius in chunks based on window + camera
     let window = match window_query.single() {
         Ok(w) => w,

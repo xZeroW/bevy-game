@@ -4,10 +4,15 @@ use bevy::prelude::*;
 // Keep these in one place so other systems (camera, terrain) can reference them.
 
 // Sprite / tiles
+pub const SPRITE_SHEET_PATH: &str = "tilesets/assets.png";
 pub const SPRITE_PIX_W: u32 = 8;
 pub const SPRITE_PIX_H: u32 = 10;
 pub const SPRITE_SCALE: u32 = 3;
 pub const SPRITE_PADDING: f32 = 1.0; // pixels in the sheet
+pub const TILE_W: u32 = 16;
+pub const TILE_H: u32 = 16;
+pub const SPRITE_SHEET_W: u32 = 8;
+pub const SPRITE_SHEET_H: u32 = 8;
 
 // Chunk layout
 pub const CHUNK_W: u32 = 16;
@@ -17,8 +22,8 @@ pub const CHUNK_H: u32 = 16;
 pub const NOISE_SCALE: f64 = 60.0;
 
 // Camera generation limits
-pub const ORTHO_MIN_SCALE: f32 = 0.5;
-pub const ORTHO_MAX_SCALE: f32 = 1.5;
+pub const ORTHO_MIN_SCALE: f32 = 0.2;
+pub const ORTHO_MAX_SCALE: f32 = 0.5;
 pub const ORTHO_GEN_MARGIN: f32 = 0.5;
 pub const MAX_GEN_SCALE: f32 = ORTHO_MAX_SCALE + ORTHO_GEN_MARGIN;
 
