@@ -1,5 +1,7 @@
 use bevy::prelude::*;
+
 use crate::game::config as cfg;
+use crate::game::game_state::GameState;
 
 #[derive(Resource, Default)]
 pub struct GlobalTextureAtlas {
@@ -20,6 +22,7 @@ pub fn load_assets(
     mut handle: ResMut<GlobalTextureAtlas>,
     asset_server: Res<AssetServer>,
     mut layouts: ResMut<Assets<TextureAtlasLayout>>,
+    mut next_state: ResMut<NextState<GameState>>
 ) {
     println!("Loading global texture atlas...");
     handle.image = asset_server.load(cfg::SPRITE_SHEET_PATH);
@@ -40,4 +43,5 @@ pub fn load_assets(
     );
 
     handle.layout = layouts.add(layout);
+    next_state.set(GameState::InGame);
 }

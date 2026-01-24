@@ -1,5 +1,7 @@
 use bevy::prelude::*;
+use crate::game::player::animation::{PlayerAnimationPlugin, AnimationTimer};
 use crate::game::player::component::Player;
+use crate::game::player::atlas_index::AtlasIndex;
 use crate::game::player::controls::{controls, sync_position_transform, close_on_esc};
 use crate::game::resources::GlobalTextureAtlas;
 
@@ -8,6 +10,7 @@ pub struct PlayerPlugin;
 impl Plugin for PlayerPlugin {
     fn build(&self, app: &mut App) {
         app
+        .add_plugins(PlayerAnimationPlugin)
         .add_systems(Startup, setup.after(crate::game::resources::load_assets))
         .add_systems(Update,
             (controls, close_on_esc))
@@ -23,5 +26,7 @@ fn setup(mut commands: Commands, handle: Res<GlobalTextureAtlas>) {
                 layout:handle.layout.clone(),
                 index:2
             }
-        ));
+        ))
+        .insert(AtlasIndex(2))
+        .insert(AnimationTimer(Timer::from_seconds(0.15, TimerMode::Repeating)));
 }

@@ -1,3 +1,3 @@
 pub mod position;
 pub mod move_speed;
-pub mod state;
+pub mod char_state;

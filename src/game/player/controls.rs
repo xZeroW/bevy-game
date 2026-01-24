@@ -1,32 +1,43 @@
 use bevy::{ecs::{entity::Entity, query::With, system::Commands}, prelude::{ButtonInput, KeyCode, Query, Res, Time, Transform}, sprite::Sprite, window::Window};
 
-use crate::game::{common::components::characters::{move_speed::MoveSpeed, position::Position}, player::component::Player};
+use crate::game::{common::components::characters::{move_speed::MoveSpeed, position::Position, char_state::State}, player::component::Player};
 
 pub fn controls(
     input: Res<ButtonInput<KeyCode>>,
     time: Res<Time>,
     player: Query<&MoveSpeed, With<Player>>,
-    mut query: Query<(&mut Position, &mut Sprite)>
+    mut query: Query<(&mut Position, &mut Sprite, &mut State), With<Player>>,
 ) {
     let speed: f32 = match player.single() {
         Ok(ms) => ms.0 as f32,
         Err(_) => 300.0,
     };
 
-    for (mut pos, mut sprite) in &mut query {
+    for (mut pos, mut sprite, mut state) in &mut query {
+        let mut moved = false;
         if input.pressed(KeyCode::ArrowRight) || input.pressed(KeyCode::KeyD) {
             sprite.flip_x = false;
             pos.x += speed * time.delta_secs();
+            moved = true;
         }
         if input.pressed(KeyCode::ArrowLeft) || input.pressed(KeyCode::KeyA) {
             sprite.flip_x = true;
             pos.x -= speed * time.delta_secs();
+            moved = true;
         }
         if input.pressed(KeyCode::ArrowUp) || input.pressed(KeyCode::KeyW) {
             pos.y += speed * time.delta_secs();
+            moved = true;
         }
         if input.pressed(KeyCode::ArrowDown) || input.pressed(KeyCode::KeyS) {
             pos.y -= speed * time.delta_secs();
+            moved = true;
+        }
+
+        if moved {
+            *state = State::Moving;
+        } else {
+            *state = State::Idle;
         }
     }
 }
