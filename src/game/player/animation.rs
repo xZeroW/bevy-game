@@ -1,10 +1,7 @@
 use bevy::prelude::*;
 
 use crate::game::{
-    player::{atlas_index::AtlasIndex, component::Player},
-    common::components::characters::char_state::State,
-    game_state::GameState,
-    resources::GlobalTextureAtlas,
+    common::components::characters::char_state::State, game_state::GameState, player::{atlas_index::AtlasIndex, component::Player}, resources::GlobalTextureAtlas
 };
 
 pub struct PlayerAnimationPlugin;
@@ -63,3 +60,22 @@ fn animate_player(
         }
     }
 }
+
+// fn flip_gun_sprite_y(
+//     cursor_position: Res<CursorPosition>,
+//     mut gun_query: Query<(&mut Sprite, &Transform), With<Gun>>,
+// ) {
+//     if gun_query.is_empty() {
+//         return;
+//     }
+
+//     if let Ok((mut sprite, transform)) = gun_query.single_mut() {
+//         if let Some(cursor_position) = cursor_position.0 {
+//             if cursor_position.x > transform.translation.x {
+//                 sprite.flip_y = false;
+//             } else {
+//                 sprite.flip_y = true;
+//             }
+//         }
+//     }
+// }

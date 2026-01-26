@@ -7,7 +7,7 @@ use crate::game::{game::GamePlugin, game_state::GameState, ui::fps::FpsPlugin};
 
 fn main() {
     App::new()
-        .add_plugins(
+        .add_plugins((
             DefaultPlugins
                 .set(WindowPlugin {
                     primary_window: Some(Window {
@@ -18,7 +18,7 @@ fn main() {
                     ..default()
                 })
                 .set(ImagePlugin::default_nearest()),
-        )
+        ))
         .init_state::<GameState>()
         .add_plugins((GamePlugin, FpsPlugin))
         // .add_plugins(EguiPlugin::default())
