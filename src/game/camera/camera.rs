@@ -16,7 +16,7 @@ impl Plugin for CameraPlugin {
 }
 
 fn setup(mut commands: Commands) {
-    commands.spawn(Camera2d);
+    commands.spawn((Camera2d, Msaa::Off));
 }
 
 fn set_camera_scale_after_spawn(mut query: Query<&mut Projection, With<Camera>>) {
