@@ -79,19 +79,23 @@ fn animate_enemy(
         return;
     }
 
-    for (mut sprite, mut aindex, timer, enemy_type) in enemy_query.iter_mut() {
-        if timer.0.just_finished() {
-            aindex.0 = (aindex.0 + 1) % 4;
-            let new_index = enemy_type.get_base_sprite_index() + aindex.0;
-            sprite.clone_from(&Sprite::from_atlas_image(
-                atlas_res.image.clone(),
-                TextureAtlas {
-                    layout: atlas_res.layout.clone(),
-                    index: new_index,
-                },
-            ));
+        for (mut sprite, mut aindex, timer, enemy_type) in enemy_query.iter_mut() {
+            if timer.0.just_finished() {
+                aindex.0 = (aindex.0 + 1) % 4;
+                let new_index = enemy_type.get_base_sprite_index() + aindex.0;
+                let prev_flip_x = sprite.flip_x;
+                let prev_flip_y = sprite.flip_y;
+                sprite.clone_from(&Sprite::from_atlas_image(
+                    atlas_res.image.clone(),
+                    TextureAtlas {
+                        layout: atlas_res.layout.clone(),
+                        index: new_index,
+                    },
+                ));
+                sprite.flip_x = prev_flip_x;
+                sprite.flip_y = prev_flip_y;
+            }
         }
-    }
 }
 
 fn flip_gun_sprite_y(

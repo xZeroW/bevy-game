@@ -7,6 +7,7 @@ use rand::Rng;
 
 use crate::game::animation::animation::AnimationTimer;
 use crate::game::player::{component::Player, atlas_index::AtlasIndex};
+use crate::game::common::components::characters::position::Position;
 use crate::game::game_state::GameState;
 use crate::game::resources::GlobalTextureAtlas;
 use crate::game::config as cfg;
@@ -53,19 +54,33 @@ fn despawn_dead_enemies(mut commands: Commands, enemy_query: Query<(&Enemy, Enti
 
 fn update_enemy_transform(
     time: Res<Time>,
-    player_query: Query<&Transform, With<Player>>,
-    mut enemy_query: Query<&mut Transform, (With<Enemy>, Without<Player>)>,
+    player_query: Query<&Position, With<Player>>,
+    mut enemy_query: Query<(&mut Transform, &mut Sprite), (With<Enemy>, Without<Player>)>,
 ) {
     if player_query.is_empty() || enemy_query.is_empty() {
         return;
     }
 
-    let player_tf = if let Ok(t) = player_query.single() { t } else { return };
-    let player_pos = player_tf.translation;
-    let dt = time.delta_secs();
-    for mut transform in enemy_query.iter_mut() {
-        let dir = (player_pos - transform.translation).normalize();
-        transform.translation += dir * (cfg::ENEMY_SPEED * dt);
+    let player_pos_comp = if let Ok(p) = player_query.single() { p } else { return };
+    let dt = time.delta().as_secs_f32();
+
+    for (mut transform, mut sprite) in enemy_query.iter_mut() {
+        let enemy_pos2 = transform.translation.truncate();
+        let player_pos2 = Vec2::new(player_pos_comp.x, player_pos_comp.y);
+        let mut dir2 = player_pos2 - enemy_pos2;
+        let len = dir2.length();
+        if len <= std::f32::EPSILON {
+            continue;
+        }
+        dir2 /= len;
+        transform.translation += vec3(dir2.x, dir2.y, 0.0) * (cfg::ENEMY_SPEED * dt);
+
+        // flip sprite to face player horizontally
+        if player_pos2.x > transform.translation.x {
+            sprite.flip_x = false;
+        } else {
+            sprite.flip_x = true;
+        }
     }
 }
 
