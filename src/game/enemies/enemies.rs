@@ -122,7 +122,7 @@ fn spawn_enemies(
 fn get_random_position_around(pos: Vec2) -> (f32, f32) {
     let mut rng = rand::rng();
     let angle = rng.random_range(0.0..PI * 2.0);
-    let dist = rng.random_range(1000.0..5000.0);
+    let dist = rng.random_range(1000.0..1500.0);
 
     let offset_x = angle.cos() * dist;
     let offset_y = angle.sin() * dist;
