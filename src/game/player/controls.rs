@@ -1,4 +1,4 @@
-use bevy::{ecs::{entity::Entity, query::With, system::Commands}, prelude::{ButtonInput, KeyCode, Query, Res, Time, Transform}, sprite::Sprite, window::Window};
+use bevy::{ecs::{entity::Entity, query::With, system::Commands}, prelude::{ButtonInput, KeyCode, Query, Res, Time, Transform, Vec2}, sprite::Sprite, window::Window};
 
 use crate::game::{common::components::characters::{move_speed::MoveSpeed, position::Position, char_state::State}, player::component::Player};
 
@@ -14,28 +14,33 @@ pub fn controls(
     };
 
     for (mut pos, mut sprite, mut state) in &mut query {
-        let mut moved = false;
+        let mut input_dir = Vec2::ZERO;
         if input.pressed(KeyCode::ArrowRight) || input.pressed(KeyCode::KeyD) {
-            sprite.flip_x = false;
-            pos.x += speed * time.delta_secs();
-            moved = true;
+            input_dir.x += 1.0;
         }
         if input.pressed(KeyCode::ArrowLeft) || input.pressed(KeyCode::KeyA) {
-            sprite.flip_x = true;
-            pos.x -= speed * time.delta_secs();
-            moved = true;
+            input_dir.x -= 1.0;
         }
         if input.pressed(KeyCode::ArrowUp) || input.pressed(KeyCode::KeyW) {
-            pos.y += speed * time.delta_secs();
-            moved = true;
+            input_dir.y += 1.0;
         }
         if input.pressed(KeyCode::ArrowDown) || input.pressed(KeyCode::KeyS) {
-            pos.y -= speed * time.delta_secs();
-            moved = true;
+            input_dir.y -= 1.0;
         }
 
-        if moved {
+        if input_dir != Vec2::ZERO {
+            let dt = time.delta().as_secs_f32();
+            let dir = input_dir.normalize();
+            pos.x += dir.x * speed * dt;
+            pos.y += dir.y * speed * dt;
             *state = State::Moving;
+
+            // sprite flip based on horizontal input
+            if dir.x > 0.0 {
+                sprite.flip_x = false;
+            } else if dir.x < 0.0 {
+                sprite.flip_x = true;
+            }
         } else {
             *state = State::Idle;
         }

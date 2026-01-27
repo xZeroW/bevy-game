@@ -4,8 +4,8 @@ use crate::game::player::weapon::{Gun, GunTimer};
 
 use crate::game::player::weapon::GunPlugin;
 use crate::game::resources::GlobalTextureAtlas;
+use crate::game::animation::animation::{PlayerAnimationPlugin, AnimationTimer};
 use crate::game::player::{
-        animation::{PlayerAnimationPlugin, AnimationTimer},
         component::Player,
         atlas_index::AtlasIndex,
         controls::{controls, sync_position_transform, close_on_esc},

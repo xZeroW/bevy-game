@@ -8,7 +8,7 @@ use rand::Rng;
 
 use crate::game::player::component::Player;
 use crate::game::game_state::GameState;
-use crate::game::config::{BULLET_SPEED, BULLET_SPAWN_INTERVAL, BULLET_TIME_SECS, NUM_BULLETS_PER_SHOT, SPRITE_SCALE};
+use crate::game::config::{BULLET_SPEED, BULLET_SPAWN_INTERVAL, BULLET_TIME_SECS, NUM_BULLETS_PER_SHOT, SPRITE_SCALE, BULLET_SPREAD};
 use crate::game::resources::{CursorPosition, GlobalTextureAtlas};
 
 pub struct GunPlugin;
@@ -91,7 +91,7 @@ fn handle_gun_input(
     mouse_button_input: Res<ButtonInput<MouseButton>>,
     handle: Res<GlobalTextureAtlas>,
 ) {
-    if gun_query.is_empty() {
+    if gun_query.is_empty() || !mouse_button_input.pressed(MouseButton::Left) {
         return;
     }
 
@@ -102,10 +102,6 @@ fn handle_gun_input(
     let gun_pos = gun_transform.translation.truncate();
     gun_timer.0.tick(time.delta());
 
-    if !mouse_button_input.pressed(MouseButton::Left) {
-        return;
-    }
-
     let mut rng = rand::rng();
     let bullet_direction = gun_transform.local_x();
     if gun_timer.0.elapsed_secs() >= BULLET_SPAWN_INTERVAL {
@@ -113,8 +109,8 @@ fn handle_gun_input(
 
         for _ in 0..NUM_BULLETS_PER_SHOT {
             let dir = vec3(
-                bullet_direction.x + rng.random_range(-0.5..0.5),
-                bullet_direction.y + rng.random_range(-0.5..0.5),
+                bullet_direction.x + rng.random_range(-BULLET_SPREAD..BULLET_SPREAD),
+                bullet_direction.y + rng.random_range(-BULLET_SPREAD..BULLET_SPREAD),
                 bullet_direction.z,
             );
             commands.spawn((
