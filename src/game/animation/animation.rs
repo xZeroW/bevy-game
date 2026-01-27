@@ -47,6 +47,8 @@ fn animate_player(
                 State::Idle => {
                     aindex.0 = 2;
                     let new_index = 2;
+                    let prev_fx = sprite.flip_x;
+                    let prev_fy = sprite.flip_y;
                     sprite.clone_from(&Sprite::from_atlas_image(
                         atlas.image.clone(),
                         TextureAtlas {
@@ -54,10 +56,14 @@ fn animate_player(
                             index: new_index,
                         },
                     ));
+                    sprite.flip_x = prev_fx;
+                    sprite.flip_y = prev_fy;
                 }
                 State::Moving => {
                     aindex.0 = (aindex.0 + 1) % 4;
                     let new_index = 4 + aindex.0;
+                    let prev_fx = sprite.flip_x;
+                    let prev_fy = sprite.flip_y;
                     sprite.clone_from(&Sprite::from_atlas_image(
                         atlas.image.clone(),
                         TextureAtlas {
@@ -65,6 +71,8 @@ fn animate_player(
                             index: new_index,
                         },
                     ));
+                    sprite.flip_x = prev_fx;
+                    sprite.flip_y = prev_fy;
                 }
             }
         }
