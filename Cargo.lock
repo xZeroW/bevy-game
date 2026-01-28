@@ -357,11 +357,13 @@ dependencies = [
  "bevy-inspector-egui",
  "bevy_common_assets",
  "bevy_ecs_tilemap",
+ "kd-tree",
  "noise",
  "rand 0.9.2",
  "serde",
  "thiserror 2.0.18",
  "tiled",
+ "typenum",
 ]
 
 [[package]]
@@ -3060,6 +3062,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "kd-tree"
+version = "0.6.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1e2adf615b2b7a38d0ec8a89b4f3c22e9e2820b1cc1c48c70e848fc83a8fb661"
+dependencies = [
+ "num-traits",
+ "ordered-float",
+ "paste",
+ "typenum",
+]
+
+[[package]]
 name = "khronos-egl"
 version = "6.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4904,6 +4918,12 @@ name = "typeid"
 version = "1.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "bc7d623258602320d5c55d1bc22793b57daff0ec7efc270ea7d55ce1d5f5471c"
+
+[[package]]
+name = "typenum"
+version = "1.19.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "562d481066bde0658276a35467c4af00bdc6ee726305698a55b86e61d7ad82bb"
 
 [[package]]
 name = "typewit"

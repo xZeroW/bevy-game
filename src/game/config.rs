@@ -42,6 +42,9 @@ pub const MAX_NUM_ENEMIES: usize = 50_000;
 pub const SPAWN_RATE_PER_SECOND: usize = 2;
 pub const ENEMY_SPAWN_INTERVAL: f32 = 0.5;
 
+// Kd-tree
+pub const KD_TREE_REFRESH_RATE: f32 = 0.1;
+
 // Render radius fallback (in chunks) if window isn't available
 pub const RENDER_RADIUS: i32 = 3;
 

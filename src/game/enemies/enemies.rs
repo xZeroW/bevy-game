@@ -19,6 +19,9 @@ pub struct Enemy {
     pub health: f32,
 }
 
+#[derive(Component, Default)]
+pub struct TrackedEnemy;
+
 #[derive(Component)]
 pub enum EnemyType {
     Green,
@@ -47,6 +50,7 @@ fn despawn_dead_enemies(mut commands: Commands, enemy_query: Query<(&Enemy, Enti
 
     for (enemy, entity) in enemy_query.iter() {
         if enemy.health <= 0.0 {
+            println!("Enemy defeated!");
             commands.entity(entity).despawn();
         }
     }
@@ -112,10 +116,12 @@ fn spawn_enemies(
             ),
             Transform::from_translation(vec3(x, y, 1.0)).with_scale(Vec3::splat(cfg::SPRITE_SCALE as f32)),
             Enemy::default(),
-                AtlasIndex(0),
+            TrackedEnemy::default(),
+            AtlasIndex(0),
             enemy_type,
             AnimationTimer(Timer::from_seconds(0.08, TimerMode::Repeating)),
-        ));
+        ))
+        ;
     }
 }
 

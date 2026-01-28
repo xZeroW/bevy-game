@@ -10,3 +10,5 @@ pub mod resources;
 pub mod game_state;
 pub mod enemies;
 pub mod animation;
+pub mod collisions;
+pub mod spatial;
