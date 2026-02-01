@@ -40,6 +40,10 @@ Purpose: Give an AI coding agent the minimal, actionable context to be productiv
   - If the feature needs textures, use `GlobalTextureAtlas` and index into the atlas rather than loading new independent images unless justified.
   - Respect system stages and ordering: prefer `Startup` for spawns, `Update` for input, `FixedUpdate` for physics.
 
+- When adding a new library dependency:
+  - Ensure it is compatible with Bevy 0.18.
+  - Add using `cargo add <crate>` to update `Cargo.toml` and `Cargo.lock`.
+
 - Example concrete patterns to copy:
   - Spawn a sprite from atlas:
     `commands.spawn(Sprite::from_atlas_image(handle.image.clone(), TextureAtlas { layout: handle.layout.clone(), index: 2 }))`

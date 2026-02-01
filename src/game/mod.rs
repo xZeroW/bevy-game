@@ -12,3 +12,5 @@ pub mod enemies;
 pub mod animation;
 pub mod collisions;
 pub mod spatial;
+pub mod assets;
+

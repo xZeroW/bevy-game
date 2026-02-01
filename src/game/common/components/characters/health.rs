@@ -1,6 +1,8 @@
 use bevy::prelude::*;
+
 use crate::game::player::component::Player;
 use crate::game::player::weapon::Weapon;
+use crate::game::game_state::GameState;
 
 #[derive(Component)]
 pub struct Health {
@@ -50,7 +52,6 @@ pub struct HealthPlugin;
 
 impl Plugin for HealthPlugin {
     fn build(&self, app: &mut App) {
-        use crate::game::game_state::GameState;
         app.add_systems(
             Update,
             despawn_dead_entities.run_if(in_state(GameState::InGame)),
