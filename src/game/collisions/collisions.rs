@@ -3,8 +3,9 @@ use std::time::Duration;
 use bevy::{prelude::*, time::common_conditions::on_timer};
 
 use crate::game::player::component::Player;
-use crate::game::enemies::enemies::Enemy;
-use crate::game::player::weapon::Bullet;
+use crate::game::enemies::component::Enemy;
+use crate::game::common::components::characters::health::Health;
+use crate::game::player::{weapon::Bullet, events::PlayerDamagedEvent};
 use crate::game::game_state::GameState;
 use crate::game::config as cfg;
 use crate::game::spatial::{KDTree2, Collidable};
@@ -28,7 +29,11 @@ impl Plugin for CollisionPlugin {
     }
 }
 
-fn handle_enemy_player_collision(player_query: Query<&Transform, With<Player>>, tree: Res<KDTree2>) {
+fn handle_enemy_player_collision(
+    mut commands: Commands,
+    player_query: Query<&Transform, With<Player>>,
+    tree: Res<KDTree2>,
+) {
     if player_query.is_empty() {
         return;
     }
@@ -39,7 +44,8 @@ fn handle_enemy_player_collision(player_query: Query<&Transform, With<Player>>, 
 
     if let Some((pos, _entity)) = tree.nearest_neighbour(player_pos) {
         if pos.distance(player_pos) <= 20.0 {
-            info!("player-enemy collision detected");
+            // trigger a PlayerDamagedEvent immediately on the World
+            commands.trigger(PlayerDamagedEvent { damage: cfg::ENEMY_DAMAGE });
         }
     }
 }
@@ -49,7 +55,7 @@ fn handle_enemy_bullet_collision(
     mut commands: Commands,
     bullet_query: Query<(Entity, &Transform), With<Bullet>>,
     tree: Res<KDTree2>,
-    mut enemy_query: Query<(&Transform, &mut Enemy), With<Enemy>>,
+    mut enemy_query: Query<(&Transform, &mut Health), With<Enemy>>,
 ) {
     if bullet_query.is_empty() || enemy_query.is_empty() {
         return;
@@ -59,8 +65,8 @@ fn handle_enemy_bullet_collision(
         if let Some((nearest_pos, entity)) = tree.nearest_neighbour(bullet_pos) {
             if nearest_pos.distance(bullet_pos) <= 20.0 {
                 if let Some(e) = entity {
-                    if let Ok((_, mut enemy)) = enemy_query.get_mut(e) {
-                        enemy.health -= cfg::BULLET_DAMAGE;
+                    if let Ok((_, mut health)) = enemy_query.get_mut(e) {
+                        health.take_damage(cfg::BULLET_DAMAGE);
                         // remove bullet so it doesn't hit again
                         commands.entity(b_entity).despawn();
                     }

@@ -6,6 +6,8 @@ use bevy::prelude::*;
 use rand::Rng;
 
 use crate::game::animation::animation::{AnimationTimer, AtlasIndex};
+use crate::game::common::components::characters::health::Health;
+use crate::game::enemies::component::Enemy;
 use crate::game::player::component::Player;
 use crate::game::common::components::characters::position::Position;
 use crate::game::game_state::GameState;
@@ -13,11 +15,6 @@ use crate::game::resources::GlobalTextureAtlas;
 use crate::game::config as cfg;
 
 pub struct EnemyPlugin;
-
-#[derive(Component)]
-pub struct Enemy {
-    pub health: f32,
-}
 
 #[derive(Component, Default)]
 pub struct CollidableEnemy;
@@ -36,21 +33,20 @@ impl Plugin for EnemyPlugin {
             (
                 // spawn_enemies.run_if(on_timer(Duration::from_secs_f32(cfg::ENEMY_SPAWN_INTERVAL))),
                 update_enemy_transform,
-                despawn_dead_enemies,
+                // despawn_dead_enemies,
             )
                 .run_if(in_state(GameState::InGame)),
         );
     }
 }
 
-fn despawn_dead_enemies(mut commands: Commands, enemy_query: Query<(&Enemy, Entity), With<Enemy>>) {
+fn despawn_dead_enemies(mut commands: Commands, enemy_query: Query<(&Health, Entity), With<Enemy>>) {
     if enemy_query.is_empty() {
         return;
     }
 
-    for (enemy, entity) in enemy_query.iter() {
-        if enemy.health <= 0.0 {
-            println!("Enemy defeated!");
+    for (health, entity) in enemy_query.iter() {
+        if health.current <= 0.0 {
             commands.entity(entity).despawn();
         }
     }
@@ -116,6 +112,7 @@ fn spawn_enemies(
             ),
             Transform::from_translation(vec3(x, y, 1.0)).with_scale(Vec3::splat(cfg::SPRITE_SCALE as f32)),
             Enemy::default(),
+            Health::default(),
             CollidableEnemy::default(),
             AtlasIndex(0),
             enemy_type,
@@ -137,14 +134,6 @@ fn get_random_position_around(pos: Vec2) -> (f32, f32) {
     let random_y = pos.y + offset_y;
 
     (random_x, random_y)
-}
-
-impl Default for Enemy {
-    fn default() -> Self {
-        Self {
-            health: cfg::ENEMY_HEALTH,
-        }
-    }
 }
 
 impl EnemyType {

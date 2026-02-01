@@ -2,9 +2,10 @@ use bevy::prelude::*;
 
 use crate::game::{
     common::components::characters::char_state::State,
-    enemies::enemies::{Enemy, EnemyType},
+    enemies::enemies::{EnemyType},
+    enemies::component::Enemy,
     game_state::GameState,
-    player::{component::Player, weapon::Gun},
+    player::{component::Player, weapon::Weapon},
     resources::{CursorPosition, GlobalTextureAtlas},
 };
 
@@ -111,7 +112,7 @@ fn animate_enemy(
 
 fn flip_gun_sprite_y(
     cursor_position: Res<CursorPosition>,
-    mut gun_query: Query<(&mut Sprite, &Transform), With<Gun>>,
+    mut gun_query: Query<(&mut Sprite, &Transform), With<Weapon>>,
 ) {
     if gun_query.is_empty() {
         return;

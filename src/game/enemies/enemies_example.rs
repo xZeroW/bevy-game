@@ -10,7 +10,8 @@ use bevy_common_assets::ron::RonAssetPlugin;
 use crate::game::config;
 use crate::game::player::component::Player;
 use crate::game::resources::GlobalTextureAtlas;
-use crate::game::enemies::enemies::{Enemy, EnemyType, CollidableEnemy};
+use crate::game::enemies::component::Enemy;
+use crate::game::enemies::enemies::{EnemyType, CollidableEnemy};
 use crate::game::animation::animation::{ AnimationTimer, AtlasIndex };
 
 #[derive(Deserialize, Asset, TypePath)]

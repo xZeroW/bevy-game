@@ -1,21 +1,21 @@
 use bevy::prelude::*;
 use bevy::time::Stopwatch;
-use crate::game::player::weapon::{Gun, GunTimer};
+use crate::game::player::weapon::{Weapon, WeaponTimer};
 
 use crate::game::player::weapon::GunPlugin;
 use crate::game::resources::GlobalTextureAtlas;
 use crate::game::animation::animation::{PlayerAnimationPlugin, AnimationTimer, AtlasIndex};
 use crate::game::player::{
         component::Player,
+        events::PlayerEventsPlugin,
         controls::{controls, sync_position_transform, close_on_esc},
     };
 
 pub struct PlayerPlugin;
-
 impl Plugin for PlayerPlugin {
     fn build(&self, app: &mut App) {
         app
-        .add_plugins((PlayerAnimationPlugin, GunPlugin))
+        .add_plugins((PlayerEventsPlugin, PlayerAnimationPlugin, GunPlugin))
         .add_systems(Startup, setup.after(crate::game::resources::load_assets))
         .add_systems(Update,
             (controls, close_on_esc))
@@ -44,8 +44,8 @@ fn setup(mut commands: Commands, handle: Res<GlobalTextureAtlas>) {
                 index: 17,
             },
         ),
-        Gun,
-        GunTimer(Stopwatch::new()),
+        Weapon,
+        WeaponTimer(Stopwatch::new()),
         Transform::from_xyz(0.0, 0.0, 15.0),
     ));
 }

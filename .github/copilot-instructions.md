@@ -16,6 +16,7 @@ Purpose: Give an AI coding agent the minimal, actionable context to be productiv
   - Use module `Plugin`s per feature (example: `PlayerPlugin`, `CameraPlugin`, `ResourcesPlugin`). Add new features as plugins and register them in `GamePlugin`.
   - Asset loading happens in a `Startup` system (`load_assets` in `resources.rs`) which sets `NextState<GameState>::set(GameState::InGame)`. Systems that require loaded assets must schedule `setup` after the asset loader, e.g. `.after(crate::game::resources::load_assets)`.
   - System stages used: `Startup` (setup + load), `Update` (per-frame logic / input), and `FixedUpdate` (physics/position sync). Follow these conventions when placing new systems.
+  - Always run `cargo build` after modifying files to ensure no compilation errors.
 
 - Data flow & integration patterns:
   - Shared, long-lived data is exposed via `#[derive(Resource)]` (e.g., `GlobalTextureAtlas`, `CursorPosition`). Use `Res` / `ResMut` to access these.

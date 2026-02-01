@@ -14,9 +14,9 @@ use crate::game::resources::{CursorPosition, GlobalTextureAtlas};
 pub struct GunPlugin;
 
 #[derive(Component)]
-pub struct Gun;
+pub struct Weapon;
 #[derive(Component)]
-pub struct GunTimer(pub Stopwatch);
+pub struct WeaponTimer(pub Stopwatch);
 #[derive(Component)]
 pub struct Bullet;
 #[derive(Component)]
@@ -53,7 +53,7 @@ fn despawn_old_bullets(
 fn update_gun_transform(
     cursor_pos: Res<CursorPosition>,
     player_query: Query<&Transform, With<Player>>,
-    mut gun_query: Query<&mut Transform, (With<Gun>, Without<Player>)>,
+    mut gun_query: Query<&mut Transform, (With<Weapon>, Without<Player>)>,
 ) {
     if player_query.is_empty() || gun_query.is_empty() {
         return;
@@ -87,7 +87,7 @@ fn update_gun_transform(
 fn handle_gun_input(
     mut commands: Commands,
     time: Res<Time>,
-    mut gun_query: Query<(&Transform, &mut GunTimer), With<Gun>>,
+    mut gun_query: Query<(&Transform, &mut WeaponTimer), With<Weapon>>,
     mouse_button_input: Res<ButtonInput<MouseButton>>,
     handle: Res<GlobalTextureAtlas>,
 ) {
