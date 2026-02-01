@@ -1,6 +1,7 @@
 use bevy::prelude::*;
 
 use crate::game::enemies::enemies::EnemyPlugin;
+use crate::game::enemies::enemies_example::EnemyAssetsExamplePlugin;
 // use crate::game::map::terrain::TerrainPlugin;
 use crate::game::player::player::PlayerPlugin;
 use crate::game::map::map::MapPlugin;
@@ -13,7 +14,7 @@ pub struct GamePlugin;
 impl Plugin for GamePlugin {
     fn build(&self, app: &mut App) {
         app
-        .add_plugins((ResourcesPlugin, PlayerPlugin, CameraPlugin, MapPlugin, EnemyPlugin, CollisionPlugin));
+        .add_plugins((ResourcesPlugin, PlayerPlugin, CameraPlugin, EnemyPlugin, CollisionPlugin, EnemyAssetsExamplePlugin));
     }
 }
 

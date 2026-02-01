@@ -8,7 +8,7 @@ use crate::game::player::weapon::Bullet;
 use crate::game::game_state::GameState;
 use crate::game::config as cfg;
 use crate::game::spatial::{KDTree2, Collidable};
-use crate::game::enemies::enemies::TrackedEnemy;
+use crate::game::enemies::enemies::CollidableEnemy;
 
 pub struct CollisionPlugin;
 
@@ -72,7 +72,7 @@ fn handle_enemy_bullet_collision(
 
 fn update_enemy_kd_tree(
     mut tree: ResMut<KDTree2>,
-    enemy_query: Query<(&Transform, Entity), With<TrackedEnemy>>,
+    enemy_query: Query<(&Transform, Entity), With<CollidableEnemy>>,
 ) {
     let mut items = Vec::new();
     for (t, e) in enemy_query.iter() {

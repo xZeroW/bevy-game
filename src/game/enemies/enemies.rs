@@ -1,12 +1,12 @@
 use std::f32::consts::PI;
-use std::time::Duration;
 
+use bevy::ecs::relationship::RelationshipSourceCollection;
 use bevy::math::vec3;
-use bevy::{prelude::*, time::common_conditions::on_timer};
+use bevy::prelude::*;
 use rand::Rng;
 
-use crate::game::animation::animation::AnimationTimer;
-use crate::game::player::{component::Player, atlas_index::AtlasIndex};
+use crate::game::animation::animation::{AnimationTimer, AtlasIndex};
+use crate::game::player::component::Player;
 use crate::game::common::components::characters::position::Position;
 use crate::game::game_state::GameState;
 use crate::game::resources::GlobalTextureAtlas;
@@ -20,7 +20,7 @@ pub struct Enemy {
 }
 
 #[derive(Component, Default)]
-pub struct TrackedEnemy;
+pub struct CollidableEnemy;
 
 #[derive(Component)]
 pub enum EnemyType {
@@ -34,7 +34,7 @@ impl Plugin for EnemyPlugin {
         app.add_systems(
             Update,
             (
-                spawn_enemies.run_if(on_timer(Duration::from_secs_f32(cfg::ENEMY_SPAWN_INTERVAL))),
+                // spawn_enemies.run_if(on_timer(Duration::from_secs_f32(cfg::ENEMY_SPAWN_INTERVAL))),
                 update_enemy_transform,
                 despawn_dead_enemies,
             )
@@ -116,7 +116,7 @@ fn spawn_enemies(
             ),
             Transform::from_translation(vec3(x, y, 1.0)).with_scale(Vec3::splat(cfg::SPRITE_SCALE as f32)),
             Enemy::default(),
-            TrackedEnemy::default(),
+            CollidableEnemy::default(),
             AtlasIndex(0),
             enemy_type,
             AnimationTimer(Timer::from_seconds(0.08, TimerMode::Repeating)),

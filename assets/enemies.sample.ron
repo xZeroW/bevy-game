@@ -1,7 +1,0 @@
-(
-  enemies: [
-    (x: 0.0, y: 100.0, kind: "green"),
-    (x: 200.0, y: 50.0, kind: "red", frame_time: Some(0.12)),
-    (x: -150.0, y: 0.0, kind: "skin", frame_time: Some(0.14)),
-  ],
-)

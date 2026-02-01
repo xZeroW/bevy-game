@@ -1,0 +1,49 @@
+(
+  enemies: [
+    (
+      x: 0.0,
+      y: 100.0,
+      kind: "green",
+      sprite: (
+        path: "enemies/devil_green.png",
+        idle: 8,
+        moving: [1, 2],
+        frame_time: Some(0.08),
+        scale: Some(1.0),
+      ),
+      metadata: (
+        spawn_rate: 0.3,
+      ),
+    ),
+    (
+      x: 200.0,
+      y: 50.0,
+      kind: "red",
+      sprite: (
+        path: "enemies/devil_red.png",
+        idle: 12,
+        moving: [1, 2, 3],
+        frame_time: Some(0.12),
+        scale: Some(1.0),
+      ),
+      metadata: (
+        spawn_rate: 0.1,
+      ),
+    ),
+    (
+      x: -150.0,
+      y: 0.0,
+      kind: "skin",
+      sprite: (
+        path: "enemies/devil_skin.png",
+        idle: 20,
+        moving: [1],
+        frame_time: Some(0.14),
+        scale: Some(1.0),
+      ),
+      metadata: (
+        spawn_rate: 0.5,
+      ),
+    ),
+  ],
+)

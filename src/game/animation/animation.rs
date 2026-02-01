@@ -4,9 +4,12 @@ use crate::game::{
     common::components::characters::char_state::State,
     enemies::enemies::{Enemy, EnemyType},
     game_state::GameState,
-    player::{atlas_index::AtlasIndex,component::Player, weapon::Gun},
-    resources::{CursorPosition, GlobalTextureAtlas}
+    player::{component::Player, weapon::Gun},
+    resources::{CursorPosition, GlobalTextureAtlas},
 };
+
+#[derive(Component, Default)]
+pub struct AtlasIndex(pub usize);
 
 pub struct PlayerAnimationPlugin;
 
@@ -80,7 +83,7 @@ fn animate_player(
 }
 
 fn animate_enemy(
-    mut enemy_query: Query<(&mut Sprite, &mut crate::game::player::atlas_index::AtlasIndex, &AnimationTimer, &EnemyType), With<Enemy>>,
+    mut enemy_query: Query<(&mut Sprite, &mut AtlasIndex, &AnimationTimer, &EnemyType), With<Enemy>>,
     atlas_res: Res<GlobalTextureAtlas>,
 ) {
     if enemy_query.is_empty() {
