@@ -21,8 +21,6 @@ pub struct EnemyList {
 
 #[derive(Deserialize)]
 pub struct EnemySpec {
-    pub x: f32,
-    pub y: f32,
     pub kind: String,
     pub sprite: EnemySprite,
     pub metadata: EnemyMetadata,
@@ -30,7 +28,6 @@ pub struct EnemySpec {
 
 #[derive(Deserialize)]
 pub struct EnemySprite {
-    pub path: String,
     pub idle: usize,
     pub moving: Vec<usize>,
     pub frame_time: Option<f32>,
@@ -40,10 +37,6 @@ pub struct EnemySprite {
 #[derive(Deserialize, Resource)]
 pub struct EnemyMetadata {
     pub name: Option<String>,
-    pub description: Option<String>,
-    pub health: Option<f32>,
-    pub speed: Option<f32>,
-    pub damage: Option<f32>,
     pub spawn_rate: f32,
 }
 
